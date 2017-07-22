@@ -207,20 +207,26 @@ if options.elastic_trace_en:
 for cpu in system.cpu:
     cpu.clk_domain = system.cpu_clk_domain
     # add by shen
-    cpu.numROBEntries = options.ROBentry
-    cpu.fetchWidth = options.cpu_width
-    cpu.decodeWidth = options.cpu_width
-    cpu.renameWidth = options.cpu_width
-    cpu.dispatchWidth = options.cpu_width
-    cpu.issueWidth = options.cpu_width
-    cpu.wbWidth = options.cpu_width
-    cpu.commitWidth = options.cpu_width
-    cpu.squashWidth = options.cpu_width
-    cpu.LQEntries = options.LSQentry
-    cpu.SQEntries = options.LSQentry
-    cpu.numIQEntries = options.IQentry
-    cpu.numPhysIntRegs = options.RFentry
-    cpu.numPhysFloatRegs = options.RFentry
+    if CPUClass == DerivO3CPU:
+    	cpu.numROBEntries = options.ROBentry
+    	cpu.fetchWidth = options.cpu_width
+    	cpu.decodeWidth = options.cpu_width
+    	cpu.renameWidth = options.cpu_width
+    	cpu.dispatchWidth = options.cpu_width
+    	cpu.issueWidth = options.cpu_width
+    	cpu.wbWidth = options.cpu_width
+    	cpu.commitWidth = options.cpu_width
+    	cpu.squashWidth = options.cpu_width
+    	cpu.LQEntries = options.LSQentry
+    	cpu.SQEntries = options.LSQentry
+    	cpu.numIQEntries = options.IQentry
+    	cpu.numPhysIntRegs = options.RFentry
+    	cpu.numPhysFloatRegs = options.RFentry
+    else:
+        if options.numInstToDump > 0:
+            cpu.numInstToDump = options.numInstToDump # by shen
+		
+	
 
 if is_kvm_cpu(CPUClass) or is_kvm_cpu(FutureClass):
     if buildEnv['TARGET_ISA'] == 'x86':

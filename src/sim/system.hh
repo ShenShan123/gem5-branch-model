@@ -64,6 +64,8 @@
 #include "params/System.hh"
 #include "sim/futex_map.hh"
 #include "sim/se_signal.hh"
+/* by shen */
+//#include "base/trace_file.hh"
 
 /**
  * To avoid linking errors with LTO, only include the header if we
@@ -540,6 +542,9 @@ class System : public MemObject
     EventQueue instEventQueue;
     std::map<std::pair<uint32_t,uint32_t>, Tick>  lastWorkItemStarted;
     std::map<uint32_t, Stats::Histogram*> workItemStats;
+
+    /* by shen */
+    //TraceFile traceFile;
 
     ////////////////////////////////////////////
     //

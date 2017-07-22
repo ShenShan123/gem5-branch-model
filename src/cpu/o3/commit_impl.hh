@@ -1461,7 +1461,7 @@ DefaultCommit<Impl>::getInsts()
                 if ((*it)->misbranch) ++(*it)->misbranchesAhead;
                 //instsInRobMap[GET_IDX(inst)].push_back((*it));
             }
-
+#ifdef CP
             /* oh shit, it is really slow... , by shen */
             if (IS_BRANCH(inst)) {
                 inst->criticalPath = criticalPath.calcCriticalPathLength(rob->instList[tid]);
@@ -1471,6 +1471,7 @@ DefaultCommit<Impl>::getInsts()
                 //assert(instsInRobMap[GET_IDX(inst)].size());
                 //assert(instsInRobMap[GET_IDX(inst)].size() == rob->numInstsInROB);
             }
+#endif
 
             /* if a target inst enters ROB, 
                now calculate the misprediction penalty, by shen */

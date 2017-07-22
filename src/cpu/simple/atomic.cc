@@ -60,6 +60,8 @@
 #include "sim/faults.hh"
 #include "sim/full_system.hh"
 #include "sim/system.hh"
+/* by shen */
+//#include "base/StackDistance.hh"
 
 using namespace std;
 using namespace TheISA;
@@ -350,6 +352,10 @@ AtomicSimpleCPU::readMem(Addr addr, uint8_t * data, unsigned size,
     //The size of the data we're trying to read.
     int fullSize = size;
 
+    uint64_t mask = 63;
+    /* record the address to construct a SDD, by shen */
+    avlTreeStack.calStackDist(addr & (~mask), histogram);
+
     //The address of the second part of this access if it needs to be split
     //across a cache line boundary.
     Addr secondAddr = roundDown(addr + size - 1, cacheLineSize());
@@ -453,6 +459,11 @@ AtomicSimpleCPU::writeMem(uint8_t *data, unsigned size, Addr addr,
 
     //The size of the data we're trying to read.
     int fullSize = size;
+
+    uint64_t mask = 63;
+    /* record the address to construct a SDD, by shen */
+    avlTreeStack.calStackDist(addr & (~mask), histogram);
+    //std::cout << "calStackDist return\n";
 
     //The address of the second part of this access if it needs to be split
     //across a cache line boundary.

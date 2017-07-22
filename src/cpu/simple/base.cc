@@ -42,7 +42,6 @@
  */
 
 #include "cpu/simple/base.hh"
-
 #include "arch/kernel_stats.hh"
 #include "arch/stacktrace.hh"
 #include "arch/tlb.hh"
@@ -84,6 +83,9 @@
 #include "sim/stats.hh"
 #include "sim/system.hh"
 
+/* by shen */
+#include "base/StackDistance.hh"
+
 using namespace std;
 using namespace TheISA;
 
@@ -93,7 +95,7 @@ BaseSimpleCPU::BaseSimpleCPU(BaseSimpleCPUParams *p)
       branchPred(p->branchPred),
       traceData(NULL),
       inst(),
-      _status(Idle)
+      _status(Idle), counter(0), windowSize(p->numInstToDump) // by shen
 {
     SimpleThread *thread;
 
@@ -123,7 +125,11 @@ BaseSimpleCPU::BaseSimpleCPU(BaseSimpleCPUParams *p)
     } else {
         checker = NULL;
     }
+    /* by shen */
+    std::cout << "window size " << windowSize << std::endl;
+    histogram.allocateBins(sdd::log2p1(MISS_BAR) + 1);
 }
+
 
 void
 BaseSimpleCPU::init()
@@ -176,12 +182,22 @@ BaseSimpleCPU::countInst()
     if (!curStaticInst->isMicroop() || curStaticInst->isLastMicroop()) {
         t_info.numInst++;
         t_info.numInsts++;
+        ++counter;
     }
     t_info.numOp++;
     t_info.numOps++;
 
     system->totalNumInsts++;
     t_info.thread->funcExeInst++;
+
+    /* when at the end of window, calculate SDD, by shen */
+    if (counter == windowSize) {
+        counter = 0;
+        histogram.print(traceFile.dump);
+        histogram.clear();
+        avlTreeStack.clear();
+        std::cout << "...dump stack distance distribution at end interval\n";
+    }
 }
 
 Counter

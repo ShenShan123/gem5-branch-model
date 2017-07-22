@@ -49,6 +49,11 @@
 #include "params/AtomicSimpleCPU.hh"
 #include "sim/probe/probe.hh"
 
+class AvlTreeStack;
+
+template <class TB, class TA>
+class Histogram;
+
 class AtomicSimpleCPU : public BaseSimpleCPU
 {
   public:

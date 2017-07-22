@@ -418,8 +418,9 @@ def install_git_style_hooks():
         try:
             os.symlink(script_path, hook.get_abspath())
         except:
-            print "Error updating git %s hook" % hook_name
-            raise
+            #print "Error updating git %s hook" % hook_name
+            #raise
+	    pass
 
     if hook_exists("pre-commit") and hook_exists("commit-msg"):
         return

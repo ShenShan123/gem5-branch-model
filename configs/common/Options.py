@@ -72,6 +72,8 @@ def addNoISAOptions(parser):
                       default='1GHz',
                       help = """Top-level clock for blocks running at system
                       speed""")
+	
+    parser.add_option("--numInstToDump", type="long", default=0, help="number of instrutions to dump") # by shen
 
     # Memory Options
     parser.add_option("--list-mem-types",
@@ -132,7 +134,7 @@ def addCommonOptions(parser):
     addNoISAOptions(parser)
 
     # system options
-    # add by shen 
+    # DerivO3 config options, add by shen 
     parser.add_option("--ROBentry", type="int", default=128, help="number of ROB entries")
     parser.add_option("--cpu-width", type="int", default=8, help="the whole cpu width")
     parser.add_option("--LSQentry", type="int", default=32, help="number of LSQ entries")
@@ -141,6 +143,7 @@ def addCommonOptions(parser):
     parser.add_option("--list-cpu-types",
                       action="callback", callback=_listCpuTypes,
                       help="List available CPU types")
+
     parser.add_option("--cpu-type", type="choice", default="AtomicSimpleCPU",
                       choices=CpuConfig.cpu_names(),
                       help = "type of cpu to run with")

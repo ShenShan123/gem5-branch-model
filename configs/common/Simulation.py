@@ -693,14 +693,14 @@ def run(options, root, testsys, cpu_class):
         print "**** REAL SIMULATION ****"
 		
 		# by shen 100M insts is a interval
-        while(1) :
-           testsys.cpu[0].scheduleInstStop(0, 100000000, "dump statistics")
-           event = m5.simulate()
-           if event.getCause() == "dump statistics":
-               m5.stats.dump()
-               m5.stats.reset()
-           else:
-               break;
+        # while(1) :
+           # testsys.cpu[0].scheduleInstStop(0, 100000000, "dump statistics")
+           # event = m5.simulate()
+           # if event.getCause() == "dump statistics":
+               # m5.stats.dump()
+               # m5.stats.reset()
+           # else:
+               # break;
 
         # If checkpoints are being taken, then the checkpoint instruction
         # will occur in the benchmark code it self.

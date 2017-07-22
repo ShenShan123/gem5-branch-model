@@ -60,6 +60,9 @@
 #include "sim/eventq.hh"
 #include "sim/full_system.hh"
 #include "sim/system.hh"
+/* by shen */
+#include "base/StackDistance.hh"
+#include "base/trace_file.hh"
 
 // forward declarations
 class Checkpoint;
@@ -106,6 +109,12 @@ class BaseSimpleCPU : public BaseCPU
     TheISA::MachInst inst;
     StaticInstPtr curStaticInst;
     StaticInstPtr curMacroStaticInst;
+
+    /* calculate stack distance, by shen */
+    sdd::AvlTreeStack avlTreeStack;
+    sdd::Histogram<> histogram;
+    uint64_t counter;
+    long windowSize;
 
   protected:
     enum Status {

@@ -4,21 +4,23 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "params/System.hh"
 
 /* enable trace file output */
-//#define R_TRACE
-#define CACHE_MISS_OUTPUT
+#define SDD_TRACE
+//#define CACHE_MISS_OUTPUT
 
 /* define the interval size, default is 100M, by shen */
-#define INTERVAL_SIZE   100000000
+//#define WINDOW_SIZE   10000000
 
 //extern bool maxInstsToDump;
 
 /* trace file, by shen */
 class TraceFile {
 public:
-#ifdef R_TRACE
-	std::ofstream memTraceFile;
+	//long windowSize;
+#ifdef SDD_TRACE
+	std::ofstream dump;
 #endif
 
 #ifdef CACHE_MISS_OUTPUT
@@ -26,13 +28,13 @@ public:
 #endif
 
 	TraceFile(std::string path) {
-#ifdef R_TRACE
+#ifdef SDD_TRACE
 		/* open trace file, by shen */
-    	memTraceFile.open(path, std::ios::out);
-    	if (memTraceFile.fail()) 
+    	dump.open(path, std::ios::out | std::ios::binary);
+    	if (dump.fail()) 
     		std::cout << "can not open the Trace file!!" << std::endl;
 
-    	memTraceFile << "interval" << std::endl;
+    	//dump << "start dump" << std::endl;
 #endif
 
 #ifdef CACHE_MISS_OUTPUT
@@ -43,8 +45,8 @@ public:
 	}
 
 	~TraceFile() {
-#ifdef R_TRACE
-		memTraceFile.close();
+#ifdef SDD_TRACE
+		dump.close();
 #endif
 
 #ifdef CACHE_MISS_OUTPUT
@@ -53,6 +55,6 @@ public:
 	}
 };
 
-static TraceFile traceFile("./m5out/branch-miss.dump");
+static TraceFile traceFile("./m5out/SDD.dump" );
 
 #endif

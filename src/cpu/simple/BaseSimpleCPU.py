@@ -36,6 +36,9 @@ class BaseSimpleCPU(BaseCPU):
     type = 'BaseSimpleCPU'
     abstract = True
     cxx_header = "cpu/simple/base.hh"
+	
+	# by shen
+    numInstToDump = Param.UInt64(0, "Number of instructions to dump")
 
     def addCheckerCpu(self):
         if buildEnv['TARGET_ISA'] in ['arm']:
